@@ -12,6 +12,15 @@ notes:
 - **Open-ended discovery** — users who are exploring and want to browse, filter,
   sort, and get inspired.
 
+## Links
+
+- **Live demo:** https://project-files-lemon.vercel.app
+- **Repository:** https://github.com/marcosamselem/project-files
+
+> The live demo runs against a hosted Algolia index using a search-only
+> (read) API key, so it works with no setup. The Algolia account uses
+> `Interview Candidate` in the company field.
+
 ---
 
 ## Quick start
@@ -196,8 +205,28 @@ search state, queries, and refinements explicit rather than hidden behind widget
 
 ---
 
+## Known limitations & what I'd improve with more time
+
+- **Restaurant images.** The image URLs in the source dataset
+  (`opentable.com/img/restimages/{id}.jpg`) are dead — every one now redirects
+  to a single generic OpenTable placeholder, so the cards fall back to a neutral
+  tile. This is a limitation of the provided data, not the integration; the next
+  step would be a generated placeholder (gradient + cuisine) or a real image CDN.
+- **Mobile filters.** The layout is responsive and the filter panel scrolls
+  independently on desktop; on small screens the filters stack above results.
+  A collapsible filter drawer would be the next refinement.
+- **Relevance tuning is a starting point, not a finish line.** With analytics
+  enabled (click/conversion events) I'd layer in Algolia's dynamic re-ranking and
+  A/B test the `customRanking` weights against real booking data.
+- **Synonyms & query rules.** Adding synonyms (e.g. "BBQ" ↔ "barbecue") and
+  rules for common intents would further sharpen known-item and discovery search.
+
+---
+
 ## Deliverables map
 
+- **Live demo** — https://project-files-lemon.vercel.app
+- **Repository** — https://github.com/marcosamselem/project-files
 - **Demo app** — `src/`, run with `npm run dev`
 - **Data pipeline** — `scripts/prepare-data.js`
 - **Index config & import** — `scripts/push-index.js`
