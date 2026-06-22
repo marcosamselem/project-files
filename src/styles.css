@@ -67,7 +67,13 @@ em { font-style: normal; background: #fff1b8; border-radius: 3px; }
 /* ---------- layout ---------- */
 .layout { max-width: 1180px; margin: -28px auto 0; padding: 0 20px 40px; }
 .layout__grid { display: grid; grid-template-columns: 260px 1fr; gap: 24px; }
-.layout__sidebar { position: sticky; top: 16px; align-self: start; }
+.layout__sidebar {
+  position: sticky; top: 16px; align-self: start;
+  /* Cap to the viewport so the filters scroll on their own when they're
+     taller than the screen, instead of only moving with the page. */
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+}
 .layout__main { min-width: 0; }
 
 /* ---------- filters ---------- */
@@ -111,7 +117,9 @@ em { font-style: normal; background: #fff1b8; border-radius: 3px; }
 .results--loading { opacity: 0.55; }
 .results__bar {
   display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 16px; gap: 12px; flex-wrap: wrap;
+  /* Pull the controls up so they sit fully on the navy hero band
+     (the white count needs the dark background). Reset on mobile below. */
+  margin-top: -18px; margin-bottom: 16px; gap: 12px; flex-wrap: wrap;
 }
 .results__count { font-size: 15px; color: #fff; }
 .results__time { color: var(--muted); font-size: 13px; }
@@ -214,4 +222,6 @@ em { font-style: normal; background: #fff1b8; border-radius: 3px; }
   .layout__grid { grid-template-columns: 1fr; }
   .layout__sidebar { position: static; }
   .hero__title { font-size: 24px; }
+  /* On mobile the bar isn't on the navy band, so don't pull it upward. */
+  .results__bar { margin-top: 0; }
 }
