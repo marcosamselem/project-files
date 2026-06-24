@@ -96,7 +96,6 @@ em { font-style: normal; background: #fff1b8; border-radius: 3px; }
   display: flex; align-items: center; gap: 8px; padding: 5px 6px; border-radius: 8px;
   font-size: 14px; cursor: pointer;
 }
-.facet__item:hover { background: #f3f4f6; }
 .facet__item input { accent-color: var(--ot-red); }
 .facet__label { flex: 1; }
 .facet__item--on .facet__label { font-weight: 600; }
@@ -108,7 +107,6 @@ em { font-style: normal; background: #fff1b8; border-radius: 3px; }
   border: 1px solid var(--line); background: #fff; border-radius: 999px;
   padding: 7px 13px; font-size: 13px; font-weight: 600; color: var(--ink);
 }
-.pill:hover { border-color: #cbd0d6; }
 .pill--on { background: var(--ot-red); border-color: var(--ot-red); color: #fff; }
 .pill:disabled { opacity: 0.4; cursor: not-allowed; }
 
@@ -142,7 +140,6 @@ em { font-style: normal; background: #fff1b8; border-radius: 3px; }
   overflow: hidden; display: flex; flex-direction: column; box-shadow: var(--shadow);
   transition: transform 0.12s, box-shadow 0.12s;
 }
-.card:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
 .card__media { position: relative; aspect-ratio: 16 / 10; background: #e9ebee; }
 .card__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .card__distance {
@@ -161,8 +158,6 @@ em { font-style: normal; background: #fff1b8; border-radius: 3px; }
   background: var(--ot-red); color: #fff; text-decoration: none; font-weight: 700;
   font-size: 13px; padding: 8px 14px; border-radius: 8px; white-space: nowrap;
 }
-.card__cta:hover { background: var(--ot-red-dark); }
-
 .stars { position: relative; display: inline-block; font-size: 14px; line-height: 1; color: #d8dce1; }
 .stars__fg { position: absolute; left: 0; top: 0; overflow: hidden; color: #f5a623; white-space: nowrap; }
 
@@ -190,15 +185,12 @@ em { font-style: normal; background: #fff1b8; border-radius: 3px; }
   border: 1px solid var(--line); background: #fff; border-radius: 999px;
   padding: 10px 16px; font-size: 14px; font-weight: 600;
 }
-.chip:hover { border-color: var(--ot-red); color: var(--ot-red); }
-
 .cuisine-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
 .cuisine-tile {
   text-align: left; border: 1px solid var(--line); background: var(--card);
   border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 4px;
   transition: transform 0.12s, border-color 0.12s;
 }
-.cuisine-tile:hover { transform: translateY(-2px); border-color: var(--ot-red); }
 .cuisine-tile__name { font-weight: 700; font-size: 15px; }
 .cuisine-tile__count { color: var(--muted); font-size: 13px; }
 
@@ -208,7 +200,6 @@ em { font-style: normal; background: #fff1b8; border-radius: 3px; }
   background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px;
   transition: transform 0.12s;
 }
-.rail__item:hover { transform: translateY(-2px); }
 .rail__media { width: 84px; height: 84px; border-radius: 10px; overflow: hidden; flex-shrink: 0; background: #e9ebee; }
 .rail__media img { width: 100%; height: 100%; object-fit: cover; }
 .rail__body { display: flex; flex-direction: column; gap: 3px; min-width: 0; justify-content: center; }
@@ -218,9 +209,24 @@ em { font-style: normal; background: #fff1b8; border-radius: 3px; }
 /* ---------- footer ---------- */
 .footer { text-align: center; color: var(--muted); font-size: 13px; padding: 30px 20px 50px; }
 
+/* Hover effects only on devices with a real pointer (laptop/desktop). On touch
+   screens `:hover` sticks when a finger lands, making cards look clicked while
+   you're only scrolling — so we gate all hover styling behind `hover: hover`. */
+@media (hover: hover) {
+  .facet__item:hover { background: #f3f4f6; }
+  .pill:hover { border-color: #cbd0d6; }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+  .card__cta:hover { background: var(--ot-red-dark); }
+  .chip:hover { border-color: var(--ot-red); color: var(--ot-red); }
+  .cuisine-tile:hover { transform: translateY(-2px); border-color: var(--ot-red); }
+  .rail__item:hover { transform: translateY(-2px); }
+}
+
 @media (max-width: 820px) {
   .layout__grid { grid-template-columns: 1fr; }
-  .layout__sidebar { position: static; }
+  /* On mobile the sidebar is part of the normal flow and the whole page scrolls
+     as one — no trapped inner scroll area. */
+  .layout__sidebar { position: static; max-height: none; overflow: visible; }
   .hero__title { font-size: 24px; }
   /* On mobile the bar isn't on the navy band, so don't pull it upward. */
   .results__bar { margin-top: 0; }
